@@ -19,7 +19,14 @@ func BenchmarkCgo(b *testing.B) {
 	}
 }
 
+func BenchmarkGo(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = 10 * 20 * 30 * 40 * 50
+	}
+}
 func main() {
 	b := testing.Benchmark(BenchmarkCgo)
-	fmt.Println("syso:", C.mul(10, 20, 30, 40, 50), b.String(), b.MemString())
+	fmt.Println("cgo:", C.mul(10, 20, 30, 40, 50), b.String(), b.MemString())
+	b = testing.Benchmark(BenchmarkGo)
+	fmt.Println("go:", 10*20*30*40*50, b.String(), b.MemString())
 }
